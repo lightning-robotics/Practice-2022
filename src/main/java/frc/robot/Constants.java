@@ -21,8 +21,10 @@ public final class Constants
         public static final int BACK_LEFT_MOTOR_PORT = 3;
         public static final int BACK_RIGHT_MOTOR_PORT = 8;
 
-        public static final int DEADZONE = 0.3;
-        public static final int MAX_SPEED = 0.75;
+        public static final double DEADZONE = 0.3;
+        public static final double MAX_SPEED = 0.5;
+
+        public static final double STEERING_MULTIPLIER = 0.4;
     }
 
     public final class portConstants {

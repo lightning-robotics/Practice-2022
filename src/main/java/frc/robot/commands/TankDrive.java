@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -39,19 +40,37 @@ public class TankDrive extends CommandBase {
   public void execute() 
   {
       double speed = 0;
+      double steering = RobotContainer.controller.getX(Hand.kRight);
+
+      double rightSpeed = 0;
+      double leftSpeed = 0;
 
       speed = RobotContainer.controller.getY(Hand.kLeft);
 
       speed *= -1;
 
 
-      if (Math.abs(speed) < 0.3)
-      {
+      if (Math.abs(speed) < Constants.DriveConstants.DEADZONE)
         speed = 0;
-      }
+  
+      if (Math.abs(steering) < Constants.DriveConstants.DEADZONE)
+        steering = 0;
+  
+        if (Math.abs(speed) > Constants.DriveConstants.MAX_SPEED)
+        speed = Constants.DriveConstants.MAX_SPEED * (speed / Math.abs(speed));
 
-      RobotContainer.driveTrain.setLeftMotorSpeed(speed);
-      RobotContainer.driveTrain.setRightMotorSpeed(speed);
+        if (Math.abs(steering) > Constants.DriveConstants.MAX_SPEED)
+        steering = Constants.DriveConstants.MAX_SPEED * (steering / Math.abs(steering));
+
+
+      rightSpeed = speed - (steering * Constants.DriveConstants.STEERING_MULTIPLIER);
+      leftSpeed = speed + (steering * Constants.DriveConstants.STEERING_MULTIPLIER);
+
+
+      System.out.println(rightSpeed + ", " + leftSpeed);
+
+      RobotContainer.driveTrain.setLeftMotorSpeed(leftSpeed);
+      RobotContainer.driveTrain.setRightMotorSpeed(rightSpeed);
 
       
 
