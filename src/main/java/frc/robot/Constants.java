@@ -22,9 +22,16 @@ public final class Constants
         public static final int BACK_RIGHT_MOTOR_PORT = 8;
 
         public static final double DEADZONE = 0.3;
-        public static final double MAX_SPEED = 0.5;
+        public static final double MAX_SPEED = 0.4;
 
-        public static final double STEERING_MULTIPLIER = 0.4;
+
+        public static final double SPEED_MULTIPLIER = 1;
+        public static final double FAST_SPEED_MULTIPLIER = 1.3;
+        public static final double SLOW_SPEED_MULTIPLIER = 0.4;
+
+        public static final double STEERING_MULTIPLIER = 0.45;
+        public static final double FAST_STEERING_MULTIPLIER = 0.75;
+        public static final double SLOW_STEERING_MULTIPLIER = 0.3;
     }
 
     public final class portConstants {

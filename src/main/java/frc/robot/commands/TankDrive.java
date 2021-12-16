@@ -29,6 +29,7 @@ public class TankDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
+  
   public void initialize() 
   {
     RobotContainer.driveTrain.setLeftMotorSpeed(0);
@@ -36,18 +37,36 @@ public class TankDrive extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
+
+  double rightSpeedLastFrame;
+  double leftSpeedLastFrame;
   @Override
   public void execute() 
   {
       double speed = 0;
       double steering = RobotContainer.controller.getX(Hand.kRight);
+      boolean aPressed = RobotContainer.controller.getAButton();
+      boolean yPressed = RobotContainer.controller.getYButton();
 
       double rightSpeed = 0;
       double leftSpeed = 0;
+      double maxSpeed = Constants.DriveConstants.MAX_SPEED;
+      double currentSteeringMultiplier = Constants.DriveConstants.STEERING_MULTIPLIER;
+      double currentSpeedMultiplier = Constants.DriveConstants.SPEED_MULTIPLIER;
+
 
       speed = RobotContainer.controller.getY(Hand.kLeft);
 
+
       speed *= -1;
+
+      if(aPressed){
+        currentSpeedMultiplier = Constants.DriveConstants.SLOW_SPEED_MULTIPLIER;
+        currentSteeringMultiplier = Constants.DriveConstants.SLOW_STEERING_MULTIPLIER;
+      }else if(yPressed){
+        currentSpeedMultiplier = Constants.DriveConstants.FAST_SPEED_MULTIPLIER;
+        currentSteeringMultiplier = Constants.DriveConstants.FAST_STEERING_MULTIPLIER;
+      }
 
 
       if (Math.abs(speed) < Constants.DriveConstants.DEADZONE)
@@ -56,23 +75,44 @@ public class TankDrive extends CommandBase {
       if (Math.abs(steering) < Constants.DriveConstants.DEADZONE)
         steering = 0;
   
-        if (Math.abs(speed) > Constants.DriveConstants.MAX_SPEED)
-        speed = Constants.DriveConstants.MAX_SPEED * (speed / Math.abs(speed));
+        if (Math.abs(speed) > maxSpeed)
+        speed = maxSpeed * (speed / Math.abs(speed));
 
-        if (Math.abs(steering) > Constants.DriveConstants.MAX_SPEED)
-        steering = Constants.DriveConstants.MAX_SPEED * (steering / Math.abs(steering));
+        if (Math.abs(steering) > maxSpeed)
+        steering = maxSpeed * (steering / Math.abs(steering));
 
 
-      rightSpeed = speed - (steering * Constants.DriveConstants.STEERING_MULTIPLIER);
-      leftSpeed = speed + (steering * Constants.DriveConstants.STEERING_MULTIPLIER);
+      
+      speed *= currentSpeedMultiplier;
+      
 
+      rightSpeed = speed - (steering * currentSteeringMultiplier);
+      leftSpeed = speed + (steering * currentSteeringMultiplier);
+      
+      if(aPressed && Math.abs(RobotContainer.controller.getY(Hand.kLeft)) < Constants.DriveConstants.DEADZONE && steering <= 0){
+        rightSpeed = 0.05;
+        leftSpeed = 0.05;
+      }else{
+
+        //WARNING this assumes that leftspeed and rightspeed are interwoven and not independent, so it just uses a single function
+        if(Math.abs(leftSpeed - leftSpeedLastFrame) < 0.03){
+          leftSpeedLastFrame = leftSpeed;
+          rightSpeedLastFrame = rightSpeed;
+        }
+
+        leftSpeed = (leftSpeedLastFrame + leftSpeed)/2;
+        rightSpeed = (rightSpeedLastFrame + rightSpeed)/2;
+      }
 
       System.out.println(rightSpeed + ", " + leftSpeed);
+
+
 
       RobotContainer.driveTrain.setLeftMotorSpeed(leftSpeed);
       RobotContainer.driveTrain.setRightMotorSpeed(rightSpeed);
 
-      
+      leftSpeedLastFrame = leftSpeed;
+      rightSpeedLastFrame = rightSpeed;
 
   }
 
