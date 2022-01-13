@@ -83,6 +83,7 @@ public class Robot extends TimedRobot {
     }
 
     RobotContainer.tankDrive.schedule();
+    RobotContainer.shooterTest.schedule();
 
   }
 

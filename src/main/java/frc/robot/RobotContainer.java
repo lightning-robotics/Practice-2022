@@ -7,8 +7,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ShooterTest;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.DriveTrain;
@@ -24,8 +26,10 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   public static final DriveTrain driveTrain = new DriveTrain();
+  public static final Shooter shooter = new Shooter();
 
   public static final Command tankDrive = new TankDrive();
+  public static final Command shooterTest = new ShooterTest();
 
   public static final XboxController controller = new XboxController(Constants.portConstants.XBOX_PORT_0);
     

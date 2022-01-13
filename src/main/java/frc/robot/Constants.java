@@ -16,10 +16,10 @@ public final class Constants
 {
     public final class DriveConstants
     {
-        public static final int FRONT_LEFT_MOTOR_PORT = 14;
-        public static final int FRONT_RIGHT_MOTOR_PORT = 4;
-        public static final int BACK_LEFT_MOTOR_PORT = 3;
-        public static final int BACK_RIGHT_MOTOR_PORT = 8;
+        public static final int FRONT_LEFT_MOTOR_PORT = 9;
+        public static final int FRONT_RIGHT_MOTOR_PORT = 10;
+        public static final int BACK_LEFT_MOTOR_PORT = 13;
+        public static final int BACK_RIGHT_MOTOR_PORT = 1;
 
         public static final double DEADZONE = 0.3;
         public static final double MAX_SPEED = 0.4;
@@ -37,5 +37,13 @@ public final class Constants
     public final class portConstants {
         public static final int XBOX_PORT_0 = 0;
 
+    }
+
+    public final class ShooterConstants
+    {
+        public static final int TOP_MOTOR_PORT = 0;
+        public static final int BOTTOM_MOTOR_PORT = 0;
+
+        public static final double MAX_SPEED = 0.8;
     }
 }
